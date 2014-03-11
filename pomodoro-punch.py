@@ -34,6 +34,8 @@ class Pomodoro(object):
             time.sleep(5)
             self.pomodoro()
             self.punch_out()
+        else:
+            self.pomodoro()
         self.finish()
 
     def notify(self, title, body):
