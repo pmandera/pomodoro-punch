@@ -15,9 +15,9 @@ import sys
 from optparse import OptionParser
 
 
-POMODORO = 25                         # duration of one pomodoro (in minutes)
-BREAK = 5                             # break duration (in minutes)
-PUNCH_CMD = '~/tools/punch/Punch.py'  # punch.py shell command
+pomo_duration = 25                    # duration of one pomodoro (in minutes)
+break_duration = 5                    # break duration (in minutes)
+punch_cmd = '~/tools/punch/Punch.py'  # punch.py shell command
 
 
 class Pomodoro(object):
@@ -49,25 +49,26 @@ class Pomodoro(object):
     def pomodoro(self):
         """Run one pomodoro."""
         self.notify('Pomodoro started!',
-                    'You have only %s minutes.' % POMODORO)
-        for i in range(POMODORO):
+                    'You have only %s minutes.' % pomo_duration)
+        for i in range(pomo_duration):
             # 'cls' for windows 'clear' for Linux and Mac
             os.system('cls' if os.name == 'nt' else 'clear')
-            print 'Minutes left:', POMODORO - i
+            print 'Minutes left:', pomo_duration - i
             time.sleep(60)
-        self.notify('Pomodoro ended!', 'Take %s minutes break.' % BREAK)
+        self.notify('Pomodoro ended!',
+                    'Take %s minutes break.' % break_duration)
         self.play_sound()
 
     def punch_in(self, task_id):
         """Punch in - start counting time."""
         # TODO: make it return task and display it
         # in notification and on terminal
-        os.system("%s in %s" % (PUNCH_CMD, task_id))
+        os.system("%s in %s" % (punch_cmd, task_id))
         self.punched_in = True
 
     def punch_out(self):
         """Punch out - stop counting time."""
-        os.system("%s out" % (PUNCH_CMD))
+        os.system("%s out" % (punch_cmd))
         self.punched_in = False
 
     def finish(self):
