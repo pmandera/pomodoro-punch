@@ -2,10 +2,9 @@
 # -*- encoding: utf8 -*-
 """
 Pomodoro punch
-
 @author: Paweł Mandera (pawel.mandera@runbox.com)
 
-Tool integrating pomodoro technique with punch.py and todo.txt
+Tool integrating pomodoro technique with punch.py and todo.txt.
 """
 import os
 import subprocess
@@ -14,10 +13,14 @@ import signal
 import sys
 from optparse import OptionParser
 
-
 pomo_duration = 25                    # duration of one pomodoro (in minutes)
 break_duration = 5                    # break duration (in minutes)
 punch_cmd = '~/tools/punch/Punch.py'  # punch.py shell command
+
+version = """Pomodoro punch"""
+usage = """Usage:
+    pomodoro-punch pomo           -- run one pomodoro
+    pomodoro-punch in <task>      -- run one pomodoro and punch in <task>"""
 
 
 class Pomodoro(object):
@@ -34,8 +37,12 @@ class Pomodoro(object):
             time.sleep(5)
             self.pomodoro()
             self.punch_out()
-        else:
+        elif self.task_command is 'pomo':
             self.pomodoro()
+        elif self.task_command is 'help':
+            print usage
+        else:
+            print usage
         self.finish()
 
     def notify(self, title, body):
@@ -45,6 +52,7 @@ class Pomodoro(object):
 
     def play_sound(self):
         """Play sound (as separate process)."""
+        # TODO: this is not the best command
         subprocess.Popen(['ogg123', '-qy 10',
                           '/usr/share/sounds/gnome/default/alerts/sonar.ogg'])
 
@@ -77,12 +85,9 @@ class Pomodoro(object):
         """Finish pomodoro"""
         if self.punched_in:
             self.punch_out()
-        print 'Bye!'
 
 
 if __name__ == '__main__':
-    usage = """Usage: ???"""
-    version = """Pomodoro punch"""
     parser = OptionParser(usage=usage, version=version)
     optlist, args = parser.parse_args()
     # TODO: check if arguments are correct
