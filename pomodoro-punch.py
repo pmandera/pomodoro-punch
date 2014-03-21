@@ -37,9 +37,9 @@ class Pomodoro(object):
             time.sleep(5)
             self.pomodoro()
             self.punch_out()
-        elif self.task_command is 'pomo':
+        elif self.task_command == 'pomo':
             self.pomodoro()
-        elif self.task_command is 'help':
+        elif self.task_command == 'help':
             print usage
         else:
             print usage
